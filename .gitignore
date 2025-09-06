@@ -1,0 +1,11 @@
+.vscode/
+*.code-workspace
+
+*.exe
+*.out
+*.log
+
+/vendor/
+coverage.out
+
+/configs/local.yaml
