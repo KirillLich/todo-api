@@ -30,7 +30,7 @@ func (r *Repository) Create(ctx context.Context, todo Todo) error {
 }
 
 func (r *Repository) GetAll(ctx context.Context) ([]Todo, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT (id, title, description, done) FROM todos")
+	rows, err := r.db.QueryContext(ctx, "SELECT id, title, description, done FROM todos")
 	defer rows.Close()
 	if err != nil {
 		return []Todo{}, err

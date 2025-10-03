@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/KirillLich/todoapi/internal/config"
+	"github.com/KirillLich/todoapi/internal/todo"
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
@@ -44,7 +45,10 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) { fmt.Fprintln(w, "Hello from /todos") })
+	h := todo.NewHandler(todo.NewService(todo.NewRepository(pool)), log)
+	//how to insert logger into handler
+	mux.HandleFunc("/todos", h.Todos)
+	mux.HandleFunc("/todos/", h.TodosId)
 
 	log.Debug(fmt.Sprintf("server starting on %d", cfg.Server.Port))
 	err = http.ListenAndServe(cfg.Server.Address+":"+strconv.Itoa(cfg.Server.Port), mux)
